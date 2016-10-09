@@ -9,6 +9,7 @@ struct Data {
     void (*storeAdd)(struct Store* store, struct Record* record, pthread_mutex_t* pThread_mutex_t);
     pthread_mutex_t* pThread_mutex_t;	// инlефикатор мютекса
     int* command;
+    int* isDaemon;
 };
 
 

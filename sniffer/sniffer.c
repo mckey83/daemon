@@ -66,7 +66,6 @@ setmode:
         close(fd);
         return (-1);
     }
-
     return 0;
 }
 
@@ -88,7 +87,6 @@ int getsock_recv(int index)
         close(sd);
         return -1;
     }
-
     return sd;
 }
 
@@ -125,24 +123,23 @@ int startSniffer( __u8* networkInterface_, struct Data* data_) {
         perror("getifconf");
         return -1;
     }
-printf("networkInterface = %s \n",networkInterface );
-printf("data->command2 = %d \n",data->command );
-    printf("IP address : %d.%d.%d.%d \n", NIPQUAD(ifp.ip));
-    printf("Netmask :  %d.%d.%d.%d \n" ,NIPQUAD(ifp.mask));
-    printf("MTU - %d\n", ifp.mtu);
-    printf("interface - %d\n", ifp.index);
+    if (data->isDaemon){
+        printf("networkInterface = %s \n",networkInterface );
+        printf("IP address : %d.%d.%d.%d \n", NIPQUAD(ifp.ip));
+        printf("Netmask :  %d.%d.%d.%d \n" ,NIPQUAD(ifp.mask));
+        printf("MTU - %d\n", ifp.mtu);
+        printf("interface - %d\n", ifp.index);
+    }
 
     if((eth0_if = getsock_recv(ifp.index)) < 0) {
         perror("getsock_recv");
         return -1;
     }
-printf("data->command3 = %d \n",data->command );
     act.sa_handler = mode_off;
     sigfillset(&(act.sa_mask));
     sigaction(SIGINT, &act, NULL);
     int quantity = 0;
-    printf("data->command = %d \n",data->command );
-    while (data->command) {
+     while (data->command) {
         memset(buff, 0, ETH_FRAME_LEN);
         rec = recvfrom(eth0_if, (char *)buff, ifp.mtu + 14, 0, NULL, NULL);
         if(rec < 0 || rec > ETH_FRAME_LEN) {
@@ -156,6 +153,5 @@ printf("data->command3 = %d \n",data->command );
         writeRecord(data, &ip, quantity++);
     }
     printf("sniffer stop\n");
-
     return 0;
 }

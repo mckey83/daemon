@@ -20,8 +20,6 @@
 #define PROMISC_MODE_OFF 0
 
 
-
-
 #include"data/data.h"
 
 struct ifparam {
