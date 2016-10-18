@@ -17,10 +17,7 @@ SOURCES += main.c \
     DaemonMode/daemon/daemon.c \
     CliMode/climode.c
 
-DISTFILES += \
-    startEth0.sh \
-    startWlan0.sh \
-    stop.sh
+DISTFILES +=
 
 HEADERS += \
 #    CliMode/data/record.h \
